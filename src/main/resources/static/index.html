@@ -1,0 +1,136 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<html>
+<body>
+<div id="header">
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+        <input id="name" name="name" value="" style="font-size:medium" type="text">
+        <input value="Login" style="font-size:large" type="submit">
+    </form>
+            </td>
+            <td>
+    <form method="POST" id="name1" action="javascript:void(null);" onsubmit="logout()">
+        <input value="Logout" style="font-size:large" type="submit">
+    </form></td>
+        </tr>
+    </table>
+</div>
+<div id="body">
+    <div id="history" class="form"></div>
+    <div id="online" class="form1"></div>
+    <div class="form2"><font size="5" color=#6495ED face="Arial">Users online:</font></div>
+    <div class="clear"></div>
+</div>
+<div id="footer">
+    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+    </form>
+</div>
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    var host = "localhost";
+    var port = 8080;
+
+
+    function loadHistory() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/chat",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#history").html(response.replace(/\n/g, "<br />"))
+            $("#history").scrollTop($("#history")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+     function loadOnline() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/online",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#online").html(response.replace(/\n/g, "<br />"))
+            $("#history").scrollTop($("#history")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+
+    function say() {
+        var msg = $('#msgform').serialize();
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/say",
+            "data": name + "&" + msg
+        };
+
+        $.ajax(settings).done(function (response) {
+            $('#msgform').trigger("reset");
+            loadHistory();
+            loadOnline();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+    function logout() {
+     var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout",
+            "data": name
+        };
+
+        $.ajax(settings).done(function (response) {
+            loadOnline();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function login() {
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/login",
+            "data": name
+        };
+
+        $.ajax(settings).done(function (response) {
+            loadHistory();
+            loadOnline();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    loadHistory();
+    loadOnline();
+    setInterval(loadOnline, 10000);
+    setInterval(loadHistory, 10000);
+
+
+</script>

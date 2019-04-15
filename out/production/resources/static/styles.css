@@ -1,0 +1,59 @@
+:root {
+    background: #336666;
+}
+
+.form {
+       background-color: #99CCCC; /* Цвет фона слоя */
+       font-family: "Courier New", Courier, monospace;
+       overflow: auto;
+       padding: 5px; /* Поля вокруг текста */
+       float: left;/* Обтекание по правому краю */
+       height: 85%; /*Длина слоя */
+       width: 75%; /* Ширина слоя */
+}
+.form1 {
+       background-color: #E6E6FA; /* Цвет фона слоя */
+       font-family: "Courier New", Courier, monospace;
+       overflow: auto;
+       padding: 5px; /* Поля вокруг текста */
+       width: 21.2%;/* Ширина слоя */
+       height: 85%; /*Длина слоя */
+       float: left; /* Обтекание по правому краю */
+
+}
+
+.clear {
+   clear: left;
+}
+
+
+.msginput {
+    width: 80%;
+
+}
+
+.sendbutton {
+    width: 15%;
+}
+
+#header {
+    background: #336666;
+    padding: 10px;
+    padding-bottom: 0;
+}
+
+#body {
+    padding: 10px;
+    padding-top: 0;
+    padding-bottom: 10px;
+    }
+
+#footer {
+    padding: 10px;
+
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px; /* Height of the footer */
+    background: #336666;
+}
