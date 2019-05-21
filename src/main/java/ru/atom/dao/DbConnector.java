@@ -17,11 +17,11 @@ class DbConnector {
 
     private static final String URL_TEMPLATE = "jdbc:postgresql://%s:%d/%s";
     private static final String URL;
-    private static final String HOST = "localhost";
+    private static final String HOST = "ec2-75-101-128-10.compute-1.amazonaws.com";
     private static final int PORT = 5432;
-    private static final String DB_NAME = "atom_chat";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "110599";
+    private static final String DB_NAME = "d3n6pav6fk0v08";
+    private static final String USER = "lttxdkvpzhhozk";
+    private static final String PASSWORD = "596e9c7b3b375cacdcaf609788000a7cfefb9aebfe306bb73a325085cf22789d";
 
     static {
         try {

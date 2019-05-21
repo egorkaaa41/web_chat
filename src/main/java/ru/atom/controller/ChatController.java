@@ -61,7 +61,7 @@ public class ChatController {
 
         log.info("[" + name + "] logined");
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(202).body("hello");
     }
 
     /**
