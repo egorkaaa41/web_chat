@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ru.atom.dao.UserDaoTest" tests="3" skipped="3" failures="0" errors="0" timestamp="2019-05-17T16:39:32" hostname="LAPTOP-QSDPNM1T" time="0.0">
+<testsuite name="ru.atom.dao.UserDaoTest" tests="3" skipped="3" failures="0" errors="0" timestamp="2019-05-21T16:22:34" hostname="LAPTOP-QSDPNM1T" time="0.0">
   <properties/>
   <testcase name="findWhereTest" classname="ru.atom.dao.UserDaoTest" time="0.0">
     <skipped/>
