@@ -32,4 +32,6 @@ dependencies {
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.0.RELEASE'
 }
 task stage(dependsOn: ['installDist'])
-
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
