@@ -71,7 +71,6 @@ public class MessageDao implements Dao<Message> {
                 .setUser(
                         new User()
                                 .setId(rs.getInt("id"))
-                                .setLogin(rs.getString("login"))
-                );
+                                .setLogin(rs.getString("login")));
     }
 }

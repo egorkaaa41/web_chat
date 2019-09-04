@@ -24,6 +24,7 @@ public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
     private final UserDao userDao = new UserDao();
+
     private final MessageDao messageDao = new MessageDao();
 
     /**
@@ -35,6 +36,7 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestParam("name") String name) {
+
         if (name.length() < 1) {
             return ResponseEntity.badRequest()
                     .body("Too short name, sorry :(");
@@ -51,17 +53,20 @@ public class ChatController {
         }
 
         List<User> alreadyLogined = userDao.getAllWhere("chat.user.login = '" + name + "'");
+
         if (alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(name))) {
+
             return ResponseEntity.badRequest()
                     .body("Already logined");
+
         }
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
         userDao.insertOnline(newUser);
-
         log.info("[" + name + "] logined");
 
         return ResponseEntity.status(202).body("hello");
+
     }
 
     /**
@@ -74,22 +79,22 @@ public class ChatController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
         List<User> authors = userDao.getAllWhere("chat.user.login = '" + name + "'");
+
         if (authors.isEmpty()) {
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Not logined");
+
         }
 
         User author = authors.get(0);
         System.out.println(author.getLogin());
         userDao.delete(author);
+        log.info("[" + name + "] logout ");
 
-            log.info("[" + name + "] logout ");
-
-
-            return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
 
     }
-
 
     /**
      * curl -i localhost:8080/chat/online
@@ -105,8 +110,8 @@ public class ChatController {
                 .collect(Collectors.joining("\n"));
 
         return ResponseEntity.ok().body(responseBody);
-    }
 
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
@@ -120,40 +125,44 @@ public class ChatController {
         if (name == null) {
             return ResponseEntity.badRequest()
                     .body("Name not provided");
+
         }
 
         if (msg == null) {
             return ResponseEntity.badRequest()
                     .body("No message provided");
+
         }
 
         if (msg.length() > 140) {
             return ResponseEntity.badRequest()
                     .body("Too long message");
+
         }
 
         List<User> authors = userDao.getAllWhere("chat.user.login = '" + name + "'");
+
         if (authors.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Not logined");
+
         }
         List<User> authorsonline = userDao.getAllWhereOnline("chat.online.login = '" + name + "'");
+
         if (!(authors.isEmpty()) && authorsonline.isEmpty() ){
             userDao.insertOnline(authors.get(0));
         }
 
         User author = authors.get(0);
-
         Message message = new Message()
                 .setUser(author)
                 .setValue(msg);
-
         messageDao.insert(message);
         log.info("[" + name + "]: " + msg);
 
         return ResponseEntity.ok().build();
-    }
 
+    }
 
     /**
      * curl -i localhost:8080/chat/chat
@@ -170,5 +179,6 @@ public class ChatController {
                 .collect(Collectors.joining("\n"));
 
         return ResponseEntity.ok(responseBody);
+
     }
 }
